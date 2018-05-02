@@ -42,10 +42,10 @@ Seq_dada2.R
 *needs to be added*
 
 ## (iii) Association tests
-#### 1 - Select overlapping CMMs between FGFP and Kiel cohorts.**
+#### 1 - Select overlapping CMMs between FGFP and Kiel cohorts.
   CMM list “TaxaNamesAll.txt”. There are a total of 72 taxa and 3 alpha diversity measures.
 
-#### 2 - Transformations and association analysis.**
+#### 2 - Transformations and association analysis.
    We performed:
    - Linear regression in SNPTEST.
      - Log2 transformed data
@@ -80,7 +80,7 @@ It runs the following steps:
      - Extract the residuals of the fitted model
      - Take care to return NAs for those samples that were already NAs. This is done to maintain order and structure in the data file for the association analysis.
 
-#### 3 - Perform the association in SNPTEST.**
+#### 3 - Perform the association in SNPTEST.
   - Construct the .sample file for SNPTEST that includes all of the 
     - Sample ids
     - Covariates
