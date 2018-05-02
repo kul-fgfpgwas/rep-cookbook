@@ -142,35 +142,27 @@ Produce a phylogenetic tree of the taxa under study with overlaying piecharts co
 
 ### Method:
 #### 1 - Construct a phylogenetic tree using all the taxa in the study
-Get all the taxonomical groups to include (or their respective taxonomical IDs) and load them in phyloT (http://phylot.biobyte.de/). This program generates phylogenetic trees based on the NCBI taxonomy. Complete clades can be included, with interruption at desired taxonomic levels, and with optional filtering of unwanted nodes.
+Get all the taxa to include (genera, families, classes…) and load them in phyloT (http://phylot.biobyte.de/). This program generates phylogenetic trees based on the NCBI taxonomy. Choose options “expanded” and “polytomy yes”, otherwise random bifurcated structure is generated. 
 
-I get all the taxa (genus, families, classes…) from the SigCountTable_pe5. Some names have to be corrected to NCBI taxonomy. Ruminococcus2 does not exist. Enterobacteriales -> Enterobacterales. These are the names parsed to phyloT with options “expanded” and “polytomy yes” (otherwise random bifurcated structure). 
+**note**: Some names have to be corrected to NCBI taxonomy.
 
 For example:
 ```
-## This list of taxa:
-Bacilli, Bacteroidetes, Barnesiella, Betaproteobacteria, Bifidobacterium, Burkholderiales, Clostridia, Dorea, Prevotella, Proteobacteria, Roseburia, Ruminococcaceae, Ruminococcus, Selenomonadales, Verrucomicrobiae
+## From this list of taxa:
+Bacteroidetes, Barnesiella, Bifidobacterium, Clostridia, Dorea, Prevotella
 
-## Is converted into this tree:
-                                                          /-Bacilli
-                                                         |
-                                                         |                                      /-Dorea
-                                                         |                       /Lachnospiraceae
-                                                /FirmicutesClostridiaClostridiales              \-Roseburia
-                                               |         |                      |
-                                               |         |                       \Ruminococcaceae-Ruminococcus
-                             /Terrabacteria_group        |
-                            |                  |          \Negativicutes-Selenomonadales
-                            |                  |
-                            |                   \ActinobacteriaActinobacteriaBifidobacterialesBifidobacteriaceae-Bifidobacterium
-                            |
--- /cellular_organismsBacteria                                                                         /Prevotellaceae-Prevotella
-                            |-FCB_groupBacteroidetes/Chlorobi_groupBacteroidetesBacteroidiaBacteroidales
-                            |                                                                          \Barnesiellaceae-Barnesiella
-                            |
-                            |-PVC_groupVerrucomicrobia-Verrucomicrobiae
-                            |
-                             \ProteobacteriaBetaproteobacteria-Burkholderiales
+## phyloT generates this tree:
+(((Prevotella,Barnesiella)Bacteroidales,(Dorea,Bifidobacterium)Terrabacteria_group)Bacteria);
+
+
+                        /-Prevotella
+           /Bacteroidales
+          |             \-Barnesiella
+-- /Bacteria
+          |                   /-Dorea
+           \Terrabacteria_group
+                              \-Bifidobacterium
+
 
 ```
 #### 2 - Retrieve information on loci counts
