@@ -54,7 +54,8 @@ Seq_dada2.R
         a. Hurdle taxa = those taxa with 5% of more individuals with zero counts
         b. Zero samples set to “0”, non-zero samples set to “1” to for a test of presence vs absence
     - Lude Franke meta analysis pipeline.
-   The Rscript “fgfp_gwas_cookbook_help.R” is provided to assist in transformation of the taxa abundance and alpha-diversity data. Steps:
+
+The Rscript “fgfp_gwas_cookbook_help.R” is provided to assist in transformation of the taxa abundance and alpha-diversity data. Steps:
    - Identify the taxa with >=5% of samples with zero-values. 
      - While the above step would be the typical procedure we would like for you define the same taxa that we did as the hurdle taxa. These taxa are listed in the file “TaxaNamesHurdleOnly.txt”.
      - Define these as hurdle taxa
