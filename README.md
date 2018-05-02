@@ -42,8 +42,8 @@ Seq_dada2.R
 *needs to be added*
 
 ## (iii) Association tests
-**1. Select overlapping CMMs between FGFP and Kiel cohorts.** 
-  CMM list “TaxaNamesAll.txt”). There are a total of 72 taxa and 3 alpha diversity measures.
+**1. Select overlapping CMMs between FGFP and Kiel cohorts.**
+   CMM list “TaxaNamesAll.txt”). There are a total of 72 taxa and 3 alpha diversity measures.
 
 **2. Transformations and association analysis.**
    We performed:
@@ -56,15 +56,19 @@ Seq_dada2.R
         b. Zero samples set to “0”, non-zero samples set to “1” to for a test of presence vs absence
     - Lude Franke meta analysis pipeline.
 
-The Rscript “fgfp_gwas_cookbook_help.R” is provided to assist in transformation of the taxa abundance and alpha-diversity data. Steps:
+The following Rscript is provided to assist in transformation of the taxa abundance and alpha-diversity data.
+```
+fgfp_gwas_cookbook_help.R 
+```
+It runs the following steps:
    - Identify the taxa with >=5% of samples with zero-values. 
      - While the above step would be the typical procedure we would like for you define the same taxa that we did as the hurdle taxa. These taxa are listed in the file “TaxaNamesHurdleOnly.txt”.
-     - Define these as hurdle taxa
-     - create a binary variable for these taxa
-            i. 0 = 0
-            ii. !0 =1
-     - create zero-truncated abundance data for these taxa
-            i. all zero values are turned to NA and all non-zero values are treated as normal.
+     - Define these as hurdle taxa.
+     - create a binary variable for these taxa.
+       i. 0 = 0
+       ii. !0 =1
+     - create zero-truncated abundance data for these taxa.
+       i. all zero values are turned to NA and all non-zero values are treated as normal.
    - All remaining abundance data (both non-hurdle and hurdle-truncated abundance data) are rank normal transformed and log2 transformed
      - Rank normal transformation: completed with the rntransfrom() function from the GenABEL package
      - Log2 transformation: all 0 values are turned into NA, effectively performing a truncation of zero values just as done in the hurdle step.
