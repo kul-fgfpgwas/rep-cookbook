@@ -106,18 +106,80 @@ wc -l all_sigsites2text.gen # 23,098 sites
 rm sigsites_chr*.gen
 ```
   - Perform association analysis for each taxa transformation
-    - EXAMPLES:
 
 ```
-RUN SNPTEST for Hurdle Binary Analysis
-
+## RUN SNPTEST for Hurdle Binary Analysis
 VAR1=C_Alphaproteobacteria_HB 
 snptest_v2.5 -data all_sigsites2text.gen TransResCovar_MYSTUDY.sample -o $VAR1.out -log $VAR1.log -frequentist 1 -method score -cov_names PC1 PC2 PC3 PC4 PC5 PC6 PC7 PC8 PC9 PC10 batchvar1 batchvar2 sex age -pheno $VAR1 -use_raw_phenotypes
 
-
-RUN SNPTEST for linear RNT and LOG analysis
-
+##RUN SNPTEST for linear RNT and LOG analysis
 VAR1=G_Blautia_RNT_Residuals
 snptest_v2.5 -data all_sigsites2text.gen TransResCovar_MYSTUDY.sample -o $VAR1.out -log $VAR1.log -frequentist 1 -method score -pheno $VAR1 -use_raw_phenotypes
 ```
 
+## (iv) Manhattan Plots for the association tests.
+### Description
+Running the following scripts will create a series of Manhattan plots, displaying the significance of each SNP associated with the microbial taxa tested. Plots for all the models run are produced and results can be merged by taxonomical group (eg. Proteobacteria) or by taxonomical level (eg. genera).
+
+### Methods
+#### 1 - Pull out the required information from tables with all the results.
+For creating the Manhattan plots, only the SNP names ("SNP"), chromosomes ("CHR"), base pair coordinates ("BP") and p-values ("P") are needed (one p-value for each statistical model used to perform the MGWAS analysis).
+
+```
+# In a directory containing all the results for each taxa:
+ls > all_taxa.txt
+mkdir tables_mhplots && cd tables_mhplots/
+bash produce_tables.sh
+```
+
+#### 2 - x
+#### 3 - y
+#### 4 - z
+
+## (v) Phylogenetic trees in iTOL
+### Description
+Produce a phylogenetic tree of the taxa under study with overlaying piecharts containing information on loci counts (using different methods) and branches coloured according to heritability traits.
+
+### Method:
+#### 1 - Construct a phylogenetic tree using all the taxa in the study
+Get all the taxonomical groups to include (or their respective taxonomical IDs) and load them in phyloT (http://phylot.biobyte.de/). This program generates phylogenetic trees based on the NCBI taxonomy. Complete clades can be included, with interruption at desired taxonomic levels, and with optional filtering of unwanted nodes.
+
+I get all the taxa (genus, families, classes…) from the SigCountTable_pe5. Some names have to be corrected to NCBI taxonomy. Ruminococcus2 does not exist. Enterobacteriales -> Enterobacterales. These are the names parsed to phyloT with options “expanded” and “polytomy yes” (otherwise random bifurcated structure). 
+
+For example:
+```
+## This list of taxa:
+Bacilli, Bacteroidetes, Barnesiella, Betaproteobacteria, Bifidobacterium, Burkholderiales, Clostridia, Dorea, Prevotella, Proteobacteria, Roseburia, Ruminococcaceae, Ruminococcus, Selenomonadales, Verrucomicrobiae
+
+## Is converted into this tree:
+                                                          /-Bacilli
+                                                         |
+                                                         |                                      /-Dorea
+                                                         |                       /Lachnospiraceae
+                                                /FirmicutesClostridiaClostridiales              \-Roseburia
+                                               |         |                      |
+                                               |         |                       \Ruminococcaceae-Ruminococcus
+                             /Terrabacteria_group        |
+                            |                  |          \Negativicutes-Selenomonadales
+                            |                  |
+                            |                   \ActinobacteriaActinobacteriaBifidobacterialesBifidobacteriaceae-Bifidobacterium
+                            |
+-- /cellular_organismsBacteria                                                                         /Prevotellaceae-Prevotella
+                            |-FCB_groupBacteroidetes/Chlorobi_groupBacteroidetesBacteroidiaBacteroidales
+                            |                                                                          \Barnesiellaceae-Barnesiella
+                            |
+                            |-PVC_groupVerrucomicrobia-Verrucomicrobiae
+                            |
+                             \ProteobacteriaBetaproteobacteria-Burkholderiales
+
+```
+#### 2 - Retrieve information on loci counts
+
+#### 3 - Retrieve information on heritability
+
+#### 4 - Upload data into iTOL and export tree
+Run mgwas_itol.py script parsing the tree file and the tables for loci counts and heritability.
+
+```
+python3 mgwas_itol.py all_taxa.tree counts.txt heritability.txt
+```
