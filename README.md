@@ -42,10 +42,10 @@ Seq_dada2.R
 *needs to be added*
 
 ## (iii) Association tests
-**1. Select overlapping CMMs between FGFP and Kiel cohorts.**
+#### 1 - Select overlapping CMMs between FGFP and Kiel cohorts.**
   CMM list “TaxaNamesAll.txt”. There are a total of 72 taxa and 3 alpha diversity measures.
 
-**2. Transformations and association analysis.**
+#### 2 - Transformations and association analysis.**
    We performed:
    - Linear regression in SNPTEST.
      - Log2 transformed data
@@ -80,7 +80,7 @@ It runs the following steps:
      - Extract the residuals of the fitted model
      - Take care to return NAs for those samples that were already NAs. This is done to maintain order and structure in the data file for the association analysis.
 
-**3. Perform the association in SNPTEST.**
+#### 3 - Perform the association in SNPTEST.**
   - Construct the .sample file for SNPTEST that includes all of the 
     - Sample ids
     - Covariates
@@ -165,10 +165,29 @@ Bacteroidetes, Barnesiella, Bifidobacterium, Clostridia, Dorea, Prevotella
 
 
 ```
-#### 2 - Retrieve information on loci counts
 
-#### 3 - Retrieve information on heritability
+Some clades may present many polytomies - These can be resolved constructing trees based on the 16S rRNA gene sequences from RDP database.
 
+Genus and next higher taxonomic levels are represented in dichotomies when they should be inclusive in a single branch.
+
+#### 2 - Retrieve information on the loci counts
+These can be obtained from the SigLocusCount table.
+```
+for tax in `cat all_taxa.txt`
+do
+   if grep -q $tax"_HurdleTruncRNT_Residuals" SNPbasedHeritability_SigLocusCount_v1_BOLTLMM.txt
+      then grep $tax"_HurdleTruncRNT_Residuals" SNPbasedHeritability_SigLocusCount_v1_BOLTLMM.txt | cut -f 1,4
+   else 
+      echo -e $tax" \t0"
+   fi
+done > counts.txt
+```
+*to be updated with new tables*
+#### 3 - Retrieve information on the heritability
+*to be updated with new tables*
+```
+command
+```
 #### 4 - Upload data into iTOL and export tree
 Run mgwas_itol.py script parsing the tree file and the tables for loci counts and heritability.
 
