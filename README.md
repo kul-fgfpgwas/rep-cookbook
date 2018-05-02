@@ -43,7 +43,7 @@ Seq_dada2.R
 
 ## (iii) Association tests
 **1. Select overlapping CMMs between FGFP and Kiel cohorts.**
-   CMM list “TaxaNamesAll.txt”). There are a total of 72 taxa and 3 alpha diversity measures.
+  CMM list “TaxaNamesAll.txt”. There are a total of 72 taxa and 3 alpha diversity measures.
 
 **2. Transformations and association analysis.**
    We performed:
@@ -65,34 +65,33 @@ It runs the following steps:
      - While the above step would be the typical procedure we would like for you define the same taxa that we did as the hurdle taxa. These taxa are listed in the file “TaxaNamesHurdleOnly.txt”.
      - Define these as hurdle taxa.
      - create a binary variable for these taxa.
-       i. 0 = 0
-       ii. !0 =1
+       - 0 = 0
+       - !0 =1
      - create zero-truncated abundance data for these taxa.
-       i. all zero values are turned to NA and all non-zero values are treated as normal.
+       - all zero values are turned to NA and all non-zero values are treated as normal.
    - All remaining abundance data (both non-hurdle and hurdle-truncated abundance data) are rank normal transformed and log2 transformed
      - Rank normal transformation: completed with the rntransfrom() function from the GenABEL package
      - Log2 transformation: all 0 values are turned into NA, effectively performing a truncation of zero values just as done in the hurdle step.
    - Residualize RNT and LOG2 data
      - Fit a linear model in R, or your favorite programing language, setting the abundance values as the response and the following variables as explanatory variables. 
-            i. Top 10 PCs
-            ii. Sex, age
-            iii. Study specific batch variables, such as plate, processing date, etc..
+       - Top 10 PCs
+       - Sex, age
+       - Study specific batch variables, such as plate, processing date, etc..
      - Extract the residuals of the fitted model
      - Take care to return NAs for those samples that were already NAs. This is done to maintain order and structure in the data file for the association analysis.
 
 **3. Perform the association in SNPTEST.**
-   a. Construct the .sample file for SNPTEST that includes all of the 
-      i. Sample ids
-      ii. Covariates
-      iii. LOG2 residual data
-      iv. RNT residual data
-      v. Hurdle Binary data
-   b. Extract Variants to test
-      i. The ~25K variant positions to test are in the file “Sites_2_Test.txt”
-      ii. This file contains HRCv1.1 SNPs and 1000G indels, as such you may not identify all of the variants in your data. This is OK! Proceed with all of those that you can identify.
-          1. We find 23,098 significant variants in the HRCv1.1 data.
-      iii. Extract and prepare genotype data with qctools
-           1. Below is some code that could be used to do that
+  - Construct the .sample file for SNPTEST that includes all of the 
+    - Sample ids
+    - Covariates
+    - LOG2 residual data
+    - RNT residual data
+    - Hurdle Binary data
+  - Extract Variants to test
+    - The ~25K variant positions to test are in the file “Sites_2_Test.txt”
+    - This file contains HRCv1.1 SNPs and 1000G indels, as such you may not identify all of the variants in your data. This is OK! Proceed with all of those that you can identify.
+      - We find 23,098 significant variants in the HRCv1.1 data.
+    - Extract and prepare genotype data with qctools. Below is some code that could be used to do that:
 
 ```
 for i in ~/YOURDIRECTORYPATH/*.bgen; do echo ${i}; qctool -g ${i} -incl-rsids SNPids2test.txt -ofiletype gen -og sigsites_chr${i# YOURDIRECTORYPATH /data_chr}.gen; done 
@@ -106,8 +105,8 @@ wc -l all_sigsites2text.gen # 23,098 sites
 ## remove chromosome data
 rm sigsites_chr*.gen
 ```
-   c. Perform association analysis for each taxa transformation
-      i. EXAMPLES
+  - Perform association analysis for each taxa transformation
+    - EXAMPLES:
 
 ```
 RUN SNPTEST for Hurdle Binary Analysis
