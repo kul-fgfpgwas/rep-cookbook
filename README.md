@@ -46,9 +46,9 @@ Seq_dada2.R
    - There are a total of 72 taxa and 3 alpha diversity measures
 2. Transformations and association analysis
    a. We performed
-      i. Linear regression in SNPTEST
-         1. Log2 transformed data
-         2. Rank normal transformed data
+      - Linear regression in SNPTEST
+        - Log2 transformed data
+        - Rank normal transformed data
       ii.	Generalized linear regression on binary traits in SNPTEST
           1. This is performed on all potential zero-inflated taxa in a hurdle step analysis
              a. Hurdle taxa = those taxa with 5% of more individuals with zero counts
