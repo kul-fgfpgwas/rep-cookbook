@@ -27,6 +27,10 @@ bash SixteenS.sh
 ```
 Seq_dada2.R
 ```
+The output of dada2 script has to be transformed into count tables. The following script also performs rarefaction at 10000:
+```
+dada2_to_taxtables.R
+```
 
 ## (ii) Genotype QC and imputation
 ### Description
