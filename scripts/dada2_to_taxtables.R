@@ -127,46 +127,11 @@ colnames(otu_table(psdada2.above10000.noctrl)) <- sub(".r0.*","",colnames(otu_ta
 J16s.samples <- row.names(taxa_16s_CMM)
 psdada2.above10000.noctrl.filt = prune_samples(J16s.samples, psdada2.above10000.noctrl)
 
-#Summarize to the taxa level using tax_glom
+#Summarize to the genus taxa level using tax_glom
 psdada2.gen.glom <- tax_glom(psdada2.above10000.noctrl.filt, taxrank = "Genus") #This step may take a while
-psdada2.fam.glom <- tax_glom(psdada2.above10000.noctrl.filt, taxrank = "Family") #This step may take a while
-psdada2.ord.glom <- tax_glom(psdada2.above10000.noctrl.filt, taxrank = "Order") #This step may take a while
-psdada2.cla.glom <- tax_glom(psdada2.above10000.noctrl.filt, taxrank = "Class") #This step may take a while
-psdada2.phy.glom <- tax_glom(psdada2.above10000.noctrl.filt, taxrank = "Phylum") #This step may take a while
-
-#Write genus table
-tax.table.gen <- otu_table(psdada2.gen.glom)
-rownames(tax.table.gen) <- tax_table(psdada2.gen.glom)[rownames(tax.table.gen),6]
-write.table(tax.table.gen, "Genus_dada2_NoRar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") # Create the data table
-
-#Write family table
-tax.table.fam <- otu_table(psdada2.fam.glom)
-rownames(tax.table.fam) <- tax_table(psdada2.fam.glom)[rownames(tax.table.fam),5]
-write.table(tax.table.fam, "Family_dada2_NoRar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") # Create the data table
-
-#Write order table
-tax.table.ord <- otu_table(psdada2.ord.glom)
-rownames(tax.table.ord) <- tax_table(psdada2.ord.glom)[rownames(tax.table.ord),4]
-write.table(tax.table.ord, "Order_dada2_NoRar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") # Create the data table
-
-#Write class table
-tax.table.cla <- otu_table(psdada2.cla.glom)
-rownames(tax.table.cla) <- tax_table(psdada2.cla.glom)[rownames(tax.table.cla),3]
-write.table(tax.table.cla, "Class_dada2_NoRar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") # Create the data table
-
-#Write phylum table
-tax.table.phy <- otu_table(psdada2.phy.glom)
-rownames(tax.table.phy) <- tax_table(psdada2.phy.glom)[rownames(tax.table.phy),2]
-write.table(tax.table.phy, "Phylum_dada2_NoRar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") # Create the data table
-
 
 #Perform rarefaction at 10000
 psdada2.gen.glom.rar = rarefy_even_depth(psdada2.gen.glom, replace=FALSE, sample.size = 10000)
-psdada2.fam.glom.rar = rarefy_even_depth(psdada2.fam.glom, replace=FALSE, sample.size = 10000)
-psdada2.ord.glom.rar = rarefy_even_depth(psdada2.ord.glom, replace=FALSE, sample.size = 10000)
-psdada2.cla.glom.rar = rarefy_even_depth(psdada2.cla.glom, replace=FALSE, sample.size = 10000)
-psdada2.phy.glom.rar = rarefy_even_depth(psdada2.phy.glom, replace=FALSE, sample.size = 10000)
-#sample_sums(psdada2.fam.glom.rar)
 
 #Write genus rarefied table
 tax.table.gen.rar <- otu_table(psdada2.gen.glom.rar)
@@ -174,42 +139,29 @@ rownames(tax.table.gen.rar) <- tax_table(psdada2.gen.glom.rar)[rownames(tax.tabl
 write.table(tax.table.gen.rar, "Genus_dada2_Rar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") 
 
 #Write family rarefied table
-tax.table.fam.rar <- otu_table(psdada2.fam.glom.rar)
-rownames(tax.table.fam.rar) <- tax_table(psdada2.fam.glom.rar)[rownames(tax.table.fam.rar),5]
-write.table(tax.table.fam.rar, "Family_dada2_Rar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t")
+tax.table.fam.rar <- otu_table(psdada2.gen.glom.rar)
+rownames(tax.table.fam.rar) <- tax_table(psdada2.gen.glom.rar)[rownames(tax.table.fam.rar),5]
+#Sum up all the rows with same taxa names
+tax.table.fam.rar <- aggregate(as.data.frame(tax.table.fam.rar), list(row.names(tax.table.fam.rar)), sum) 
+write.table(tax.table.fam.rar, "Family_dada2_Rar.tsv" ,col.names=T,row.names = ,quote=FALSE,sep = "\t")
 
 #Write order rarefied table
-tax.table.ord.rar <- otu_table(psdada2.ord.glom.rar)
-rownames(tax.table.ord.rar) <- tax_table(psdada2.ord.glom.rar)[rownames(tax.table.ord.rar),4]
+tax.table.ord.rar <- otu_table(psdada2.gen.glom.rar)
+rownames(tax.table.ord.rar) <- tax_table(psdada2.gen.glom.rar)[rownames(tax.table.ord.rar),4]
+#Sum up all the rows with same taxa names
+tax.table.ord.rar <- aggregate(as.data.frame(tax.table.ord.rar), list(row.names(tax.table.ord.rar)), sum) 
 write.table(tax.table.ord.rar, "Order_dada2_Rar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t")
 
 #Write class rarefied table
-tax.table.cla.rar <- otu_table(psdada2.cla.glom.rar)
-rownames(tax.table.cla.rar) <- tax_table(psdada2.cla.glom.rar)[rownames(tax.table.cla.rar),3]
+tax.table.cla.rar <- otu_table(psdada2.gen.glom.rar)
+rownames(tax.table.cla.rar) <- tax_table(psdada2.gen.glom.rar)[rownames(tax.table.cla.rar),3]
+#Sum up all the rows with same taxa names
+tax.table.cla.rar <- aggregate(as.data.frame(tax.table.cla.rar), list(row.names(tax.table.cla.rar)), sum) 
 write.table(tax.table.cla.rar, "Class_dada2_Rar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t")
 
 #Write phylum rarefied table
-tax.table.phy.rar <- otu_table(psdada2.phy.glom.rar)
-rownames(tax.table.phy.rar) <- tax_table(psdada2.phy.glom.rar)[rownames(tax.table.phy.rar),2]
+tax.table.phy.rar <- otu_table(psdada2.gen.glom.rar)
+rownames(tax.table.phy.rar) <- tax_table(psdada2.gen.glom.rar)[rownames(tax.table.phy.rar),2]
+#Sum up all the rows with same taxa names
+tax.table.phy.rar <- aggregate(as.data.frame(tax.table.phy.rar), list(row.names(tax.table.phy.rar)), sum) 
 write.table(tax.table.phy.rar, "Phylum_dada2_Rar.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t")
-
-####################
-# Core micriobiota #
-####################
-#You can run the following to obtain the core microbiota
-#Taxa with over x% relative abundance (0%) and 95% prevance
-psdada2.genus.1a95p.core <- core(psdada2.gen.glom.rar, detection = 0, prevalence = 95/100) 
-#Create taxa table
-tax.table.1a95p <- otu_table(psdada2.genus.1a95p.core)
-rownames(tax.table.1a95p) <- tax_table(psdada2.genus.1a95p.core)[rownames(tax.table.1a95p),6]
-
-#According to Benson: Taxa with >40 reads (out of 10k) on average
-tax.table.gen.40r <- otu_table(psdada2.gen.glom.rar)
-rownames(tax.table.gen.40r) <- tax_table(psdada2.gen.glom.rar)[rownames(tax.table.gen.40r),6]
-tax.table.gen.40r <- as.data.frame(tax.table.gen.40r)
-tax.table.gen.40r$average <- rowSums(tax.table.gen.40r)/ncol(tax.table.gen.40r)
-dfdada2.core <- tax.table.gen.40r[tax.table.gen.40r$average > 40,]
-dfdada2.core$average <- NULL
-psdada2.core.bencmm <- phyloseq(otu_table(t(dfdada2.core), taxa_are_rows = FALSE))
-
-write.table(dfdada2.core, "Genus_CMM_40r_dada2.tsv" ,col.names=T,row.names = T,quote=FALSE,sep = "\t") # Create the data table
