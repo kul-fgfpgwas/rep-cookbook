@@ -46,8 +46,8 @@ dada2_to_taxtables.R
 *needs to be added*
 
 ## (iii) Association tests
-#### 1 - Select overlapping CMMs between FGFP and Kiel cohorts.
-  CMM list “TaxaNamesAll.txt”. There are a total of 72 taxa and 3 alpha diversity measures.
+#### 1 - Select overlapping DADA2 between FGFP and Kiel cohorts.
+  DADA2 list “scripts/FGFP_Replication_SetUp_public/setup_helpers/analyzable_taxa.txt”. There are a total of 92 taxa and 3 alpha diversity measures.
 
 #### 2 - Transformations and association analysis.
    We performed:
@@ -80,7 +80,7 @@ It runs the following steps:
      - Fit a linear model in R, or your favorite programing language, setting the abundance values as the response and the following variables as explanatory variables. 
        - Top 10 PCs
        - Sex, age
-       - Study specific batch variables, such as plate, processing date, etc..
+       - Study specific batch variables (exttype, extractyear, aliquotyear, aliquotby, plate)
      - Extract the residuals of the fitted model
      - Take care to return NAs for those samples that were already NAs. This is done to maintain order and structure in the data file for the association analysis.
 
