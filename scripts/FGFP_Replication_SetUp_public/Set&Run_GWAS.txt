@@ -1,0 +1,95 @@
+#################################################
+##  FGFP dada2 GWAS
+##  HELPER code 4 Setting up and running SNPTEST
+##  Date: Jun 30th 2018
+##  By: David Hughes
+##################################################
+
+## Some scratch code that may be helpful for setting up and running
+## snptest
+
+##########################################
+## Step 1) Prepare Genotype Data
+##       
+##########################################
+# variants to test are provided in the file:
+#       "setup_helpers/ListOf_FGFP_SNPids_2_Replicate.txt"
+
+# SOFTWARE: QCTOOLS v2
+
+# Iterate over each chromsome in a for loop to write the necessary variants to a new .gen file
+
+# NOTE: THERE ARE INDEL IDS IN THE ListOf_FGFP_SNPids_2_Replicate.txt THAT DO NOT HAVE ALLELES CODED.
+#          THESE CAN BE IGNORED!
+
+## code for rsids
+for i in *.bgen; do qctool -g ${i} -s dada2_transformed_residualized_gwasready_data.sample -og ${i%.bgen}_fgfpmarkers2test.gen -ofiletype gen -incl-rsids ListOf_FGFP_SNPids_2_Replicate.txt; done
+
+# or depending on how you bgen is setup you may want the -incl-snpids flag.
+
+## code for snpids
+for i in *.bgen; do qctool -g ${i} -s dada2_transformed_residualized_gwasready_data.sample -og ${i%.bgen}_fgfpmarkers2test.gen -ofiletype gen -incl-snpids ListOf_FGFP_SNPids_2_Replicate.txt; done
+
+##########################################
+## Step 2) Concatenate gen files together
+##########################################
+touch allreplicationmarkers
+
+for i in *.gen; do cat allreplicationmarkers ${i} >> allreplicationmarkers; done
+mv allreplicationmarkers allreplicationmarkers.gen
+
+
+##########################################
+## Step 3) EDIT / Prepare job submission
+##          files
+##########################################
+# use the template master I provided as a helping guide
+# or prepare your own job files
+#
+# temples I provided are:
+#    base_abundance_bychr_scriptv2, for the RNT and LOG data
+#    base_binary_splitchr_scriptv2 , for the HB or hurdle binary data
+
+
+
+##########################################
+## Step 4) Set up Submission scripts
+##         -- Iterate over base script
+##             to add phenotype and chr --
+##########################################
+## Iterate over Taxa 
+## taxa defined in setup_helpers/analyzable_taxa.txt
+mkdir taxprep
+
+## RNTRes
+cat analyzable_taxa.txt | while read i; do awk '{ if (NR == 3) print "#PBS -N '${i}'_RNT"; else if (NR == 8) print "VAR1='${i}'"; else if (NR == 11) print "NORM=RNTres";  else print $0}' base_abundance_bychr_scriptv2 > ./taxprep/${i}_RNT; done
+
+## LOGRes
+cat analyzable_taxa.txt | while read i; do awk '{ if (NR == 3) print "#PBS -N '${i}'_LOG"; else if (NR == 8) print "VAR1='${i}'"; else if (NR == 11) print "NORM=LOGres";  else print $0}' base_abundance_bychr_scriptv2 > ./taxprep/${i}_LOG; done
+
+
+##########################################
+## Step 5) Make a Master Run Script for ALL
+## RNT and LOG jobs
+##########################################
+ls |grep .sh |sed 's/\ / /g' |awk '{print "qsub "$i" -e log -o log"}' > run
+mv run run.sh
+
+
+##########################################
+## Step HB 6) Iterate over base script
+##         to add phenotype and chr
+##########################################
+## Iterate over HURDLE Taxa 
+
+## HB
+cat hurdletaxa.txt | while read i; do awk '{ if (NR == 3) print "#PBS -N '${i}'_HB"; else if (NR == 8) print "VAR1='${i}'"; else if (NR == 11) print "NORM=HB";  else print $0}' base_binary_splitchr_scriptv2 > ./taxprep/${i}_HB; done
+
+##########################################
+## Step 5) Make a Master Run Script for ALL
+## RNT and LOG jobs
+##########################################
+ls |grep .sh |sed 's/\ / /g' |awk '{print "qsub "$i" -e log -o log"}' > runHB
+mv runHB runHB.sh
+
+
