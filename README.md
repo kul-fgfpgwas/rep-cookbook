@@ -22,8 +22,8 @@ dada2_to_taxtables.R
 
 ## (ii) Genotype QC and imputation
 ### Description
-1. FGFP samples were Samples processed on two different arrays, Human Core Exome v1.0: 576 samples and Human Core Exome v1.1: 2112 samples, resulting in 545, 535 markers in merged raw data set. 
-2. Allele calling done by GenomeStudio
+1. FGFP samples were processed on two different arrays, Human Core Exome v1.0 (576 samples) and Human Core Exome v1.1 (2112 samples), resulting in 545, 535 markers in merged raw data set. 
+2. Allele calling was performed by GenomeStudio
 3. SNP QC: cross check with sex information, remove Unmapped (chr0) Variants, update to RS ids and remove duplicates; remove variants with >5% missing, remove monomorphic alleles, remove HWE p<1e-5 and remove AT/CG ambiguous sites. 
 4. Sample QC: remove sample with >5% SNPs missing, remove samples with heterozygosity <3SD of mean value, remove samples with relatedness >0.025. 
 5. Merge with 1KG samples and remove those with outstanding population structure. 
