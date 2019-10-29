@@ -67,8 +67,8 @@ TaxaSumStatFun = function(taxa){
 ##  in GWAS
 ##
 ############################
-taxa2analyze = read.table("./setup_helpers/analyzable_taxa.txt", h = F, as.is = TRUE)[,1]
-hurdletaxa = read.table("./setup_helpers/hurdletaxa.txt", h = F, as.is = TRUE)[,1]
+taxa2analyze = read.table("analyzable_taxa.txt", h = F, as.is = TRUE)[,1]
+hurdletaxa = read.table("hurdletaxa.txt", h = F, as.is = TRUE)[,1]
 ## remove the alpha diversity
 w = grep("Div_", taxa2analyze)
 if(length(w)>0){
