@@ -118,15 +118,13 @@ snptest_v2.5 -data all_sigsites2text.gen TransResCovar_MYSTUDY.sample -o $VAR1.o
 
 The following scripts will help to create the Manhattan plots displaying the significance of each SNP associated with the microbial taxa tested.
 
-#### 1 - Pull out the required information from tables with all the results.
-For creating the Manhattan plots, only the SNP names ("SNP"), chromosomes ("CHR"), base pair coordinates ("BP") and p-values ("P") are needed (one p-value for each statistical model used to perform the MGWAS analysis).
+Pull out the required information from tables with all the results. For creating the Manhattan plots, only the SNP names ("SNP"), chromosomes ("CHR"), base pair coordinates ("BP") and p-values ("P") are needed (one p-value for each statistical model used to perform the MGWAS analysis).
 
 ```
 # In a directory containing all the results for each taxa:
 cat data_chr*out | grep -v "#" | grep -v "rs" | awk '{if ($19 >= 0.01 && $9 >= 0.3 && $22 >= 0.3) print
 $2,$21}' | sed 's/:/\t/g' | sed 's/_.* /\t/g' > rnt.pvalues
 ```
-
 Then use the following scripts to help you obtaining the manhattan plots:
 ```
 mhplots.R
