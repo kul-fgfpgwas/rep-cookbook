@@ -37,10 +37,13 @@ set_and_run_GWAS.txt
 
 ### Association tests
 #### 1 - Select overlapping DADA2 between FGFP and Kiel cohorts.
-  DADA2 list “scripts/FGFP_Replication_SetUp_public/setup_helpers/analyzable_taxa.txt”. There are a total of 92 taxa and 3 alpha diversity measures.
+There are a total of 92 taxa and 3 alpha diversity measures. DADA2 list can be found here:
+```
+analyzable_taxa.txt
+```
 
 #### 2 - Transformations and association analysis.
-   We performed:
+We performed:
    - Linear regression in SNPTEST.
      - Log2 transformed data
      - Rank normal transformed data
