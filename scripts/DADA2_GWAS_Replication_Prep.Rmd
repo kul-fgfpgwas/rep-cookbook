@@ -336,8 +336,8 @@ text(  MDS$species[w,1], MDS$species[w,2], labels = names(MDS$species[w,1]) , xl
 #### Load taxa that need be GWAS analyzed
 
 ```{r}
-GWAStqxafile = "setup_helpers/analyzable_taxa.txt"
-GWAShurdletqxafile = "setup_helpers/hurdletaxa.txt"
+GWAStqxafile = "analyzable_taxa.txt"
+GWAShurdletqxafile = "hurdletaxa.txt"
 
 GWAStaxa = read.table(GWAStqxafile, h = FALSE, as.is = TRUE)[,1]
 GWASHURDLEtaxa = read.table(GWAShurdletqxafile, h = FALSE, as.is = TRUE)[,1]
