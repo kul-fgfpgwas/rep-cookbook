@@ -30,6 +30,10 @@ dada2_to_taxtables.R
 6. Imputation with HRCv1.1 server and EUR population as reference. 
 7. Post imputation QC: remove SNPs that are monomorphic, INFO < 0.5 & MAF < 1% .
 
+The scratch code in the following file will help to prepare the genotype data and prepare the files for the next step:
+```
+set_and_run_GWAS.txt
+```
 
 ### Association tests
 #### 1 - Select overlapping DADA2 between FGFP and Kiel cohorts.
