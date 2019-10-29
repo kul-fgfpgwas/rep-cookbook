@@ -21,19 +21,17 @@ dada2_to_taxtables.R
 ```
 
 ### Genotype QC and imputation
-#### Description
+
 1. FGFP samples were processed on two different arrays, Human Core Exome v1.0 (576 samples) and Human Core Exome v1.1 (2112 samples), resulting in 545, 535 markers in merged raw data set. 
-2. Allele calling was performed by GenomeStudio
+2. Allele calling was performed by GenomeStudio.
 3. SNP QC: cross check with sex information, remove Unmapped (chr0) Variants, update to RS ids and remove duplicates; remove variants with >5% missing, remove monomorphic alleles, remove HWE p<1e-5 and remove AT/CG ambiguous sites. 
 4. Sample QC: remove sample with >5% SNPs missing, remove samples with heterozygosity <3SD of mean value, remove samples with relatedness >0.025. 
 5. Merge with 1KG samples and remove those with outstanding population structure. 
 6. Imputation with HRCv1.1 server and EUR population as reference. 
 7. Post imputation QC: remove SNPs that are monomorphic, INFO < 0.5 & MAF < 1% .
 
-### Method:
-*needs to be added*
 
-## (iii) Association tests
+### Association tests
 #### 1 - Select overlapping DADA2 between FGFP and Kiel cohorts.
   DADA2 list “scripts/FGFP_Replication_SetUp_public/setup_helpers/analyzable_taxa.txt”. There are a total of 92 taxa and 3 alpha diversity measures.
 
@@ -109,11 +107,10 @@ VAR1=G_Blautia_RNT_Residuals
 snptest_v2.5 -data all_sigsites2text.gen TransResCovar_MYSTUDY.sample -o $VAR1.out -log $VAR1.log -frequentist 1 -method score -pheno $VAR1 -use_raw_phenotypes
 ```
 
-## (iv) Manhattan Plots for the association tests.
-### Description
-Running the following scripts will create a series of Manhattan plots, displaying the significance of each SNP associated with the microbial taxa tested. Plots for all the models run are produced and results can be merged by taxonomical group (eg. Proteobacteria) or by taxonomical level (eg. genera).
+### Manhattan Plots for the association tests.
 
-### Methods
+The following scripts will help to create the Manhattan plots displaying the significance of each SNP associated with the microbial taxa tested.
+
 #### 1 - Pull out the required information from tables with all the results.
 For creating the Manhattan plots, only the SNP names ("SNP"), chromosomes ("CHR"), base pair coordinates ("BP") and p-values ("P") are needed (one p-value for each statistical model used to perform the MGWAS analysis).
 
@@ -128,12 +125,10 @@ bash produce_tables.sh
 #### 3 - y
 #### 4 - z
 
-## (v) Phylogenetic trees in iTOL
-### Description
+### Phylogenetic trees 
 Produce a phylogenetic tree of the taxa under study with overlaying piecharts containing information on loci counts (using different methods) and branches coloured according to heritability traits.
 
-### Method:
-#### 1 - Construct a phylogenetic tree using all the taxa in the study
+#### Construct a phylogenetic tree using all the taxa in the study
 Get all the taxa to include (genera, families, classes…) and load them in phyloT (http://phylot.biobyte.de/). This program generates phylogenetic trees based on the NCBI taxonomy. Choose options “expanded” and “polytomy yes”, otherwise random bifurcated structure is generated. 
 
 **note**: Some names have to be corrected to NCBI taxonomy.
@@ -158,11 +153,10 @@ Bacteroidetes, Barnesiella, Bifidobacterium, Clostridia, Dorea, Prevotella
 
 ```
 
-Some clades may present many polytomies - These can be resolved constructing trees based on the 16S rRNA gene sequences from RDP database.
+Some clades may present many polytomies. These can be resolved constructing trees based on the 16S rRNA gene sequences from RDP database.
 
-Genus and next higher taxonomic levels are represented in dichotomies when they should be inclusive in a single branch.
+#### Retrieve information on the loci counts and heritability
 
-#### 2 - Retrieve information on the loci counts
 These can be obtained from the SigLocusCount table.
 ```
 for tax in `cat all_taxa.txt`
@@ -172,17 +166,8 @@ do
    else 
       echo -e $tax" \t0"
    fi
-done > counts.txt
+done > loci_counts.txt
 ```
-*to be updated with new tables*
-#### 3 - Retrieve information on the heritability
-*to be updated with new tables*
-```
-command
-```
-#### 4 - Upload data into iTOL and export tree
-Run mgwas_itol.py script parsing the tree file and the tables for loci counts and heritability.
 
-```
-python3 mgwas_itol.py all_taxa.tree counts.txt heritability.txt
-```
+#### Upload data into iTOL and export tree
+Load your .tree and .txt files with loci counts and heritability to https://itol.embl.de/ and format your tree [as desired](https://itol.embl.de/help.cgi)
