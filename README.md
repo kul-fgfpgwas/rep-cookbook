@@ -11,11 +11,11 @@ Perform sample inference from high-throughput amplicon data using [dada2](https:
 4. Remove chimeras: Identify sequences that are exact bimeras.
 5. Taxonomical classification.
 
-**Run the  analysis (in R):**
+Perform these analysis in R using the following script:
 ```
 Seq_dada2.R
 ```
-The output of dada2 script has to be transformed into count tables. The following script also performs rarefaction at 10000:
+Transform the dada2 output into count tables and perform rarefaction using the following script:
 ```
 dada2_to_taxtables.R
 ```
