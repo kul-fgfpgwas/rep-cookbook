@@ -1,10 +1,10 @@
 # rep-cookbook
 Replication Cookbook for microbiome GWAS
 
-## (i) Microbiome processing: Sample inference from amplicon data
+### Microbiome processing: Sample inference from amplicon data
 Perform sample inference from high-throughput amplicon data using [dada2](https://github.com/benjjneb/dada2).
 
-### The dada2 pipeline performs the following steps:
+The dada2 pipeline performs the following steps:
 1. Quality control: Perform filtering and trimming of reads.
 2. Perform dereplication: Group amplicon reads with same sequence into unique sequences.
 3. Sample inference: Using the core sequence-variant inference algorithm to the dereplicated data.
@@ -20,8 +20,8 @@ Transform the dada2 output into count tables and perform rarefaction using the f
 dada2_to_taxtables.R
 ```
 
-## (ii) Genotype QC and imputation
-### Description
+### Genotype QC and imputation
+#### Description
 1. FGFP samples were processed on two different arrays, Human Core Exome v1.0 (576 samples) and Human Core Exome v1.1 (2112 samples), resulting in 545, 535 markers in merged raw data set. 
 2. Allele calling was performed by GenomeStudio
 3. SNP QC: cross check with sex information, remove Unmapped (chr0) Variants, update to RS ids and remove duplicates; remove variants with >5% missing, remove monomorphic alleles, remove HWE p<1e-5 and remove AT/CG ambiguous sites. 
