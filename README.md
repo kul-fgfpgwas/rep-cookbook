@@ -123,14 +123,14 @@ For creating the Manhattan plots, only the SNP names ("SNP"), chromosomes ("CHR"
 
 ```
 # In a directory containing all the results for each taxa:
-ls > all_taxa.txt
-mkdir tables_mhplots && cd tables_mhplots/
-bash produce_tables.sh
+cat data_chr*out | grep -v "#" | grep -v "rs" | awk '{if ($19 >= 0.01 && $9 >= 0.3 && $22 >= 0.3) print
+$2,$21}' | sed 's/:/\t/g' | sed 's/_.* /\t/g' > rnt.pvalues
 ```
 
-#### 2 - x
-#### 3 - y
-#### 4 - z
+Then use the following scripts to help you obtaining the manhattan plots:
+```
+mhplots.R
+```
 
 ### Phylogenetic trees 
 Produce a phylogenetic tree of the taxa under study with overlaying piecharts containing information on loci counts (using different methods) and branches coloured according to heritability traits.
