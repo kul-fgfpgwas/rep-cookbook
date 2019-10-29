@@ -1,22 +1,10 @@
 # rep-cookbook
-Replication Cookbook for FGFP GWAS
+Replication Cookbook for microbiome GWAS
 
 ## (i) Microbiome processing: Sample inference from amplicon data
-Perform sample inference from high-throughput amplicon data using the SixteenS pipeline and [dada2](https://github.com/benjjneb/dada2).
+Perform sample inference from high-throughput amplicon data using [dada2](https://github.com/benjjneb/dada2).
 
-### SixteenS pipeline performs the following tasks:
-1. Merging reads: Forward and reverse reads are merged with the FLASH software (v1.2).
-2. Reads QC: quality filtering was subsequently performed with the fastx toolkit (http://hannonlab.cshl.edu/fastx_toolkit/), excluding those sequences with >5% nucleotides of quality score <30.
-3. Chimera removal: chimeras in sequences were removed using UCHIME (v6.0) with gold.fa as reference. 
-4. Subsampling: randomly selecting 10,000 reads for each sample.
-5. Taxonomical classification and compositional matrices for each taxonomical level were carried out using RDP classifier with RDP14, where classifications with low confidence at the genus level (<0.8) were organized in an arbitrary taxon of "unclassified_family".
-
-**Run the analysis (in bash)**
-```
-bash SixteenS.sh
-```
-
-### dada2 pipeline performs the following steps:
+### The dada2 pipeline performs the following steps:
 1. Quality control: Perform filtering and trimming of reads.
 2. Perform dereplication: Group amplicon reads with same sequence into unique sequences.
 3. Sample inference: Using the core sequence-variant inference algorithm to the dereplicated data.
