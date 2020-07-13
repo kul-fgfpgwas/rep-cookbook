@@ -55,7 +55,7 @@ We performed:
 
 The following Rscript is provided to assist in transformation of the taxa abundance and alpha-diversity data.
 ```
-fgfp_gwas_cookbook_help.R 
+DADA2_GWAS_Replication_Prep.Rmd 
 ```
 It runs the following steps:
    - Identify the taxa with >=5% of samples with zero-values. 
